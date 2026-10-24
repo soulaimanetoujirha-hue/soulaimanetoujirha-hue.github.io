@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Play Scintilla</title>
+<meta name="description" content="Scintilla: Ice Puzzle Story, free on Google Play.">
+<link rel="icon" href="../icon.png">
+<!--
+  Link-in-bio page. Instagram and TikTok open links in their own browser, where a
+  plain play.google.com link often does nothing when tapped. Here the button opens
+  the Play Store app directly on Android (intent link, started by the tap), with the
+  normal Play web page as the fallback. ?from=instagram (tiktok, youtube...) is passed
+  on to Play Console as the traffic source.
+-->
+<style>
+  :root { --bg: #0d1424; --text: #e8eef8; --muted: #9fb0cc; --amber: #ffb648; }
+  body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; }
+  main { max-width: 480px; margin: 0 auto; padding: 56px 16px; text-align: center; }
+  img.icon { width: 120px; height: 120px; border-radius: 28px; box-shadow: 0 0 40px rgba(255, 182, 72, .35); }
+  h1 { margin: 20px 0 4px; font-size: 1.7rem; }
+  p.tag { color: var(--muted); margin: 0 0 28px; }
+  a.play { display: block; background: var(--amber); color: #1a1205; font-weight: 800; font-size: 1.15rem; padding: 18px 24px; border-radius: 999px; text-decoration: none; }
+  p.help { color: var(--muted); font-size: .9rem; margin-top: 22px; }
+  p.help a { color: var(--muted); }
+</style>
+</head>
+<body>
+<main>
+  <img class="icon" src="../icon.png" alt="Scintilla icon">
+  <h1>Scintilla: Ice Puzzle Story</h1>
+  <p class="tag">Free on Google Play</p>
+  <a class="play" id="play" href="https://play.google.com/store/apps/details?id=com.soulgames.slidelock">Get it on Google Play</a>
+  <p class="help">Nothing happens? Tap <b>⋮</b> at the top right and choose <b>Open in browser</b>, or search “Scintilla” in the Play Store.<br>
+    <a id="web" href="https://play.google.com/store/apps/details?id=com.soulgames.slidelock">Open the Play Store page</a></p>
+</main>
+<script>
+  (function () {
+    var id = "com.soulgames.slidelock";
+    var from = (new URLSearchParams(location.search).get("from") || "web").replace(/[^a-z0-9_-]/gi, "").slice(0, 20);
+    var referrer = encodeURIComponent("utm_source=" + from + "&utm_medium=bio");
+    var web = "https://play.google.com/store/apps/details?id=" + id + "&referrer=" + referrer;
+    document.getElementById("web").href = web;
+    var play = document.getElementById("play");
+    play.href = web;
+    if (/android/i.test(navigator.userAgent)) {
+      // Opens the Play Store app itself; browsers that can't fall back to the web page.
+      play.href = "intent://details?id=" + id + "&referrer=" + referrer +
+        "#Intent;scheme=market;package=com.android.vending;S.browser_fallback_url=" + encodeURIComponent(web) + ";end";
+    }
+  })();
+</script>
+</body>
+</html>
